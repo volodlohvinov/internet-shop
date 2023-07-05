@@ -16,11 +16,11 @@
   };
 
   function showProducts(category) {
-    var productsBlock = document.getElementById('products');
+    const productsBlock = document.getElementById('products');
     productsBlock.innerHTML = '';
 
-    const products = productsData[category];
-    for (var i = 0; i < products.length; i++) {
+    let products = productsData[category];
+    for (let i = 0; i < products.length; i++) {
       const product = products[i];
       const productElement = document.createElement('div');
       productElement.innerHTML = '<p class = "product" onclick="showProductInfo(\'' + category + '\', ' + i + ')">' + product.name + '</p>';
