@@ -141,7 +141,7 @@ function submitElement() {
     const orderInfoElement = document.getElementById("order-info");
     orderInfoElement.innerHTML =
       "<h2>Order</h2>" +
-      "<p>Name of product:"+ product  + "</p>"
+      
       "<p>Name of buyer:" +
       firstName +
       " " +
