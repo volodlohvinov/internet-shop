@@ -92,7 +92,7 @@ function buyProduct() {
     '<label for="quantity">Production quantity </label> <br>' +
     '<input type="number" name="quantity" id="quantity" required> <br>' +
     '<label for="comment">Purchase comment</label> <br>' +
-    '<input type="textarea " id = "comment" value=""></input> <br>' +
+   ' <textarea name="" id="comment" cols="30" rows="10"></textarea> <br>' +
     '<input type="submit" onclick="submitElement()" value="Submit your purchase"></input>' +
     "</form>";
    
@@ -107,9 +107,9 @@ function submitElement() {
    
     
   }
-
+  
   form.addEventListener("submit", handleForm);
- 
+  
   
   const firstName = document.getElementById("first-name").value;
   const lastName = document.getElementById("last-name").value;
@@ -117,10 +117,10 @@ function submitElement() {
   const storage = document.getElementById("storage").value;
   const paymentMethod = document.querySelector(
     'input[name="payment-method"]:checked'
-  );
+  ).value;
   const quantity = document.getElementById("quantity").value;
   const comment = document.getElementById("comment").value;
-
+ 
   if (
     firstName === "" ||
     lastName === "" ||
