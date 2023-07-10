@@ -14,6 +14,7 @@ const productsData = {
     { name: "Poetry", price: 15 },
   ],
 };
+let product
 
 function showProducts(category) {
   const productsBlock = document.getElementById("products");
@@ -23,7 +24,7 @@ function showProducts(category) {
   const products = productsData[category];
   
   for (let i = 0; i < products.length; i++) {
-    const product = products[i];
+     product = products[i];
     const productElement = document.createElement("div");
     productElement.innerHTML =
       '<p class = "product" onclick="showProductInfo(\'' +
@@ -38,12 +39,13 @@ function showProducts(category) {
   }
 }
 
+
 function showProductInfo(category, index) {
   
   const productInfoBlock = document.getElementById("product-info");
   productInfoBlock.innerHTML = "";
 
-  const product = productsData[category][index];
+   product = productsData[category][index];
   const productInfoElement = document.createElement("div");
   productInfoElement.innerHTML =
     '<p class = "purchase">' +
@@ -67,24 +69,11 @@ function buyProduct() {
     '<input type="text" name="last-name" id="last-name" required> <br>' +
     '<label for = "citiesList">Choose your city</label> <br> ' +
     '<select name="cities" id="city">' +
-    '<option value="Odesa">Odesa</option>' +
-    '<option value="Kiyv">Kiyv</option>' +
-    '<option value="Kharkiv">Kharkiv</option>' +
-    '<option value="Lviv">Lviv</option>' +
-    '<option value="Mykolaiv">Mykolaiv</option>' +
+   
     "</select> <br> " +
     '<label for ="storageList">Choose Nova Poshta storage</label> <br> ' +
     '<select name="storage" id="storage">' +
-    '<option value="Nova Poshta. Post office #25">Nova Poshta. Post office #25</option>' +
-    '<option value="Nova Poshta. Post office #62">Nova Poshta. Post office #62</option>' +
-    '<option value="Nova Poshta. Post office #129">Nova Poshta. Post office #129</option>' +
-    '<option value="Nova Poshta. Post office #30">Nova Poshta. Post office #30</option>' +
-    '<option value="Nova Poshta. Post office #13">Nova Poshta. Post office #13</option>' +
-    '<option value="Nova Poshta. Post office #5">Nova Poshta. Post office #5</option>' +
-    '<option value="Nova Poshta. Post office #48">Nova Poshta. Post office #48</option>' +
-    '<option value="Nova Poshta. Post office #18">Nova Poshta. Post office #18</option>' +
-    '<option value="Nova Poshta. Post office #10">Nova Poshta. Post office #10</option>' +
-    '<option value="Nova Poshta. Post office #14">Nova Poshta. Post office #14</option>' +
+   
     "</select> <br>" +
     '<label for="paymentMethod">Choose payment method</label> <br>' +
     '<input type="radio" id =  "payment-method"  name = "payment-method" value = "By credit card"> By credit card' +
@@ -95,9 +84,34 @@ function buyProduct() {
    ' <textarea name="" id="comment" cols="30" rows="10"></textarea> <br>' +
     '<input type="submit" onclick="submitElement()" value="Submit your purchase"></input>' +
     "</form>";
-   
+    const novaPoshtaStorages = [
+      "Nova Poshta. Post office #25",
+      "Nova Poshta. Post office #62",
+      "Nova Poshta. Post office #129",
+      "Nova Poshta. Post office #30",
+      "Nova Poshta. Post office #13",
+      "Nova Poshta. Post office #5",
+      "Nova Poshta. Post office #48",
+      "Nova Poshta. Post office #18",
+      "Nova Poshta. Post office #10",
+      "Nova Poshta. Post office #14",
+    ];
+  
+    const storageSelectElement = document.getElementById("storage");
+    const storageOptions = novaPoshtaStorages.map((storage) => {
+      return '<option value="' + storage + '">' + storage + "</option>";
+    });
+    storageSelectElement.innerHTML = storageOptions.join("");
+  
+    const citiesList = [
+      "Odesa", "Kiyv", "Kharkiv", "Lviv", "Mykolaiv",
+    ]
+    const citySelectElement = document.getElementById("city");
+    const cityOptions = citiesList.map((city) => {
+      return '<option value = " ' + city + '">' + city + "</option>";
+    })
+citySelectElement.innerHTML = cityOptions.join("")
 }
-
 
 
 function submitElement() {
@@ -117,7 +131,7 @@ function submitElement() {
   const storage = document.getElementById("storage").value;
   const paymentMethod = document.querySelector(
     'input[name="payment-method"]:checked'
-  ).value;
+  )?.value;
   const quantity = document.getElementById("quantity").value;
   const comment = document.getElementById("comment").value;
  
@@ -137,32 +151,39 @@ function submitElement() {
     alert("Quantity can be only positive");
   } else {
     alert("Item purchased");
-
-    const orderInfoElement = document.getElementById("order-info");
-    orderInfoElement.innerHTML =
-      "<h2>Order</h2>" +
-      
-      "<p>Name of buyer:" +
-      firstName +
-      " " +
-      lastName +
-      "</p>" +
-      "<p>City:" +
-      city +
-      "</p>" +
-      "<p>Nova Poshta storage:" +
-      storage +
-      "</p>" +
-      "<p>Payment method:" +
-      paymentMethod +
-      "</p>" +
-      "<p>Quantity of item:" +
-      quantity +
-      "</p>" +
-      "<p>Commentar:" +
-      comment +
-      "</p>";
-     
+    
+    if (product) {
+      const orderInfoElement = document.getElementById("order-info");
+      orderInfoElement.innerHTML =
+        "<h2>Order</h2>" +
+        "<p>Product: " +
+        product.name +
+        "</p>" +
+        "<p>Price: $" +
+        product.price +
+        "</p>" +
+        "<p>Name of buyer: " +
+        firstName +
+        " " +
+        lastName +
+        "</p>" +
+        "<p>City: " +
+        city +
+        "</p>" +
+        "<p>Nova Poshta storage: " +
+        storage +
+        "</p>" +
+        "<p>Payment method: " +
+        paymentMethod +
+        "</p>" +
+        
+        "<p>Quantity of item: " +
+        quantity +
+        "</p>" +
+        "<p>Comment: " +
+        comment +
+        "</p>";
+    }
       
     
 
@@ -176,4 +197,3 @@ function submitElement() {
     formBlock.innerHTML = "";
   }
 }
-
