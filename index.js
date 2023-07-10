@@ -117,7 +117,7 @@ function submitElement() {
   const storage = document.getElementById("storage").value;
   const paymentMethod = document.querySelector(
     'input[name="payment-method"]:checked'
-  ).value;
+  );
   const quantity = document.getElementById("quantity").value;
   const comment = document.getElementById("comment").value;
 
@@ -133,8 +133,8 @@ function submitElement() {
     alert("Name cannot be a number");
   } else if (!paymentMethod) {
     alert("Please select a payment method");
-  } else if (quantity < 0) {
-    alert("Quantity cannot be negative");
+  } else if (quantity <= 0) {
+    alert("Quantity can be only positive");
   } else {
     alert("Item purchased");
 
