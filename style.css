@@ -130,7 +130,12 @@ button {
    resize: none;
 }
 
-
+#details-order {
+    width: 20%;
+}
+#delete-order {
+    width: 20%;
+}
 
 
    

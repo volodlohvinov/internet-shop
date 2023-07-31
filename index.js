@@ -62,7 +62,7 @@ function buyProduct() {
 
   const formBlock = document.getElementById("form");
   formBlock.innerHTML =
-    '<form id =  action="">' +
+    '<form id ="form"  action="">' +
     '<label for="first-name">Enter your first name</label> <br>' +
     '<input type="text" name="first-name" id="first-name" required> <br>' +
     '<label for="last-name">Enter your last name</label> <br>' +
@@ -113,6 +113,83 @@ function buyProduct() {
 citySelectElement.innerHTML = cityOptions.join("")
 }
 
+function savedOrderToLocalStorage(order) {
+  let savedOrders = localStorage.getItem("orders")
+  const orders = savedOrders ? JSON.parse(savedOrders) : [];
+  orders.push(order);
+  localStorage.setItem("orders" , JSON.stringify(orders))
+}
+
+function showOrders () {
+  const ordersBlock = document.getElementById("orders")
+  ordersBlock.innerHTML = "";
+
+  const savedOrders = localStorage.getItem("orders")
+  const orders = savedOrders ? JSON.parse(savedOrders) : [];
+  
+  if (orders.length === 0) {
+    ordersBlock.innerHTML = "<p>No orders yet.</p>"
+    return
+  
+    
+}
+
+
+orders.forEach((order, index) => {
+  const orderElement = document.createElement("div");
+  orderElement.innerHTML = `
+  <p>Name of product: ${order.productName}</p>
+    <p>Date and Time: ${order.date}</p>
+    <p>Price: $${order.productPrice}</p>
+    <button id = "details-order" onclick="showOrderDetails(${index})">Show Details</button>
+  `;
+  ordersBlock.appendChild(orderElement);
+});
+const categories = document.getElementById("categories");
+categories.style.display = "none"
+const products = document.getElementById("products");
+products.style.display = "none"
+const productInfoElement = document.getElementById("product-info");
+productInfoElement.style.display = "none"
+const orderInfoElement = document.getElementById("order-info");
+orderInfoElement.style.display = "none"
+const formBlock = document.getElementById("form");
+formBlock.style.display = "none"
+}
+
+function showOrderDetails(index) {
+  const ordersBlock = document.getElementById("orders");
+  ordersBlock.innerHTML = "";
+
+  const savedOrders = localStorage.getItem("orders");
+  const orders = savedOrders ? JSON.parse(savedOrders) : [];
+
+  const order = orders[index];
+  const orderDetailsElement = document.createElement("div");
+  orderDetailsElement.innerHTML = `
+    <p>Date and Time: ${order.date}</p>
+    <p>Name of buyer: ${order.firstName} ${order.lastName}</p>
+    <p>City: ${order.city}</p>
+    <p>Nova Poshta storage: ${order.storage}</p>
+    <p>Payment method: ${order.paymentMethod}</p>
+    <p>Product: ${order.productName}</p>
+    <p>Price: $${order.productPrice}</p>
+    <p>Quantity of item: ${order.quantity}</p>
+    <p>Comment: ${order.comment}</p>
+    <button id = "delete-order" onclick="deleteOrder(${index})">Delete Order</button>
+  `;
+  ordersBlock.appendChild(orderDetailsElement);
+}
+
+function deleteOrder(index) {
+  const savedOrders = localStorage.getItem("orders")
+  const orders = savedOrders ? JSON.parse(savedOrders) : [];
+
+  orders.splice(index, 1);
+  localStorage.setItem("orders", JSON.stringify(orders))
+
+  showOrders()
+}
 
 function submitElement() {
   const form = document.getElementById("form");
@@ -184,7 +261,20 @@ function submitElement() {
         comment +
         "</p>";
     }
-      
+    const order = {
+      date: new Date().toLocaleString(),
+      firstName,
+      lastName,
+      city,
+      storage,
+      paymentMethod,
+      productName: product.name,
+      productPrice: product.price,
+      quantity,
+      comment,
+    };
+
+    savedOrderToLocalStorage(order);
     
 
     const productsBlock = document.getElementById("products");
